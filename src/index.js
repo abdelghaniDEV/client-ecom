@@ -12,7 +12,7 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
   <RecoilRoot>
-  <BrowserRouter basename='/safwa-ecommerce'>
+  <BrowserRouter>
    <Provider store={store}>
     <App />
     </Provider>
