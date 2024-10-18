@@ -18,17 +18,19 @@ function AddtoCart({ product }) {
   const [size, setSize] = useState();
   const [quantite, setQuantite] = useState(1);
 
+
+
   const dispatch = useDispatch();
 
 
 
   // check description in side this product
   const showShortdescriptin = (productShowCart) => {
-    if (productShowCart.attributes.shortdescription) {
+    if (productShowCart.ShortDescription) {
       return (
-        <div className="py-[15px] h-[80px] overflow-hidden">
+        <div className="py-[15px] overflow-hidden">
           <p className="font-normal text-[15px] text-[#868686]">
-            {productShowCart.attributes.shortdescription}
+            {productShowCart.ShortDescription}
           </p>
         </div>
       );
@@ -43,19 +45,20 @@ function AddtoCart({ product }) {
       sizeActive.classList.remove("acrivesize");
     }
     e.target.classList.add("acrivesize");
-    setSize(e.target.textContent);
+    setSize(e.target.textContent.toUpperCase());
   };
 
   const showSizeSelected = (productShowCart) => {
-    if (productShowCart.attributes.sizeclothes !== null) {
+    if (productShowCart.size.length > 0) {
       return (
-        <div className="py-[20px]">
+        <div className="pb-5">
           <h3 className="pb-[10px]">Sizes : {size}</h3>
           <ul className="flex items-center flex-wrap gap-4">
-            {productShowCart.attributes.sizeclothes.map((item, index) => {
+            {productShowCart.size.map((item, index) => {
+              
               return (
                 <li
-                  className="text-[15px] border  px-[20px] cursor-pointer"
+                  className="text-[15px] border  px-[20px] cursor-pointer uppercase"
                   key={index}
                   onClick={(e) => clickSize(e)}
                 >
@@ -85,7 +88,7 @@ function AddtoCart({ product }) {
 
   const handleAddtoCart = () => {
     const errorMessage = document.querySelector(".error-size");
-    if (productShowCart.attributes.sizeclothes) {
+    if (productShowCart.size) {
       if (size) {
         const newArr = {
           ...productShowCart,
@@ -151,25 +154,23 @@ function AddtoCart({ product }) {
                   <div>
                     <img
                       className="w-[340px] rounded-[15px]"
-                      alt={productShowCart.attributes.title}
+                      alt={productShowCart.name}
                       src={
-                        process.env.REACT_APP_API_URL +
-                        productShowCart.attributes.images.data[0].attributes.url
+                        productShowCart.image[0]
                       }
                     />
                   </div>
                   <div className="pt-3">
                     <ul className="flex items-center gap-3 justify-center">
-                      {productShowCart.attributes.images.data.map(
+                      {productShowCart.image.map(
                         (image, index) => {
                           return (
                             <img
-                              alt={productShowCart.attributes.title}
+                              alt={productShowCart.name}
                               className="w-[40px] cursor-pointer"
                               key={index}
                               src={
-                                process.env.REACT_APP_API_URL +
-                                image.attributes.url
+                                image
                               }
                             />
                           );
@@ -181,20 +182,24 @@ function AddtoCart({ product }) {
                 <div className="w-[500px] pt-[20px]">
                   <div className="flex items-center gap-3">
                     <h1 className="text-[40px] font-bold">
-                      $ {productShowCart.attributes.price}
+                      $ {productShowCart.price}
                     </h1>
                     <span className="text-[red] line-through text-[20px] font-semibold ">
-                      {productShowCart.attributes.discount &&
-                        `$${productShowCart.attributes.discount}`}
+                      {productShowCart.PriceDiscount &&
+                        `$${productShowCart.PriceDiscount}`}
                     </span>
                   </div>
                   <div className="pt-3">
                     <h1 className="text-[18px] font-semibold">
-                      {productShowCart.attributes.title}
+                      {productShowCart.name}
                     </h1>
                   </div>
                   {showShortdescriptin(productShowCart)}
                   <div>{showSizeSelected(productShowCart)}</div>
+                  <div className="h-[100px] overflow-hidden">
+                    <h3 className="pb-1 font-[600]">Description:</h3>
+                   <p>{productShowCart.description}</p>
+                  </div>
                 </div>
                 <div className="  border-solid border rounded-[10px] px-5 py-5 flex flex-col gap-5 w-[300px]">
                   <div className=" ">
@@ -248,7 +253,7 @@ function AddtoCart({ product }) {
                     </div>
                     <div className=" mt-5">
                       <Link
-                        to={`/product/${productShowCart.id}`}
+                        to={`/product/${productShowCart._id}`}
                         onClick={() => setshowcart(false)}
                         className=" text-[black] text-[16px] font-semibold border-solid border-2 rounded-[30px] cursor-pointer py-[12px] px-[20px] text-center "
                       >
@@ -277,7 +282,7 @@ function AddtoCart({ product }) {
               Icon={
                 <i className="bx bxs-cart-download text-[#198754] text-[30px]"></i>
               }
-              title={productShowCart.attributes.title}
+              title={productShowCart.name}
             />
           </motion.div>
         )}

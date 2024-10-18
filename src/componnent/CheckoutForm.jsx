@@ -83,7 +83,7 @@ const CheckoutForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      // handleCheckout();
+      handleCheckout();
       submitOrder()
       // Handle successful form submission
     } 
@@ -95,19 +95,16 @@ const CheckoutForm = () => {
     try {
       // Create a payment session using Strapi API with Axios
       const response = await axios.post(
-        'http://localhost:4000/api/payments/create-checkout-session',
+        `${process.env.REACT_APP_API_URL}/payments/create-checkout-session`,
         { cart }, // body containing the cart data
         {
           headers: {
-            'Content-Type': 'application/json',
-            // Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`, // Uncomment if you need authorization
+            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`, // Uncomment if you need authorization
           },
         }
       );
   
       const session = response.data;
-  
-      console.log('session', session);
   
       // Redirect to Stripe Checkout
       const result = await stripe.redirectToCheckout({
@@ -148,7 +145,7 @@ const CheckoutForm = () => {
     try {
       // simulate API call
       const response = await axios.post(
-        "http://localhost:4000/api/orders",
+        `${process.env.REACT_APP_API_URL}/orders`,
         orderData,
         {
          headers: {

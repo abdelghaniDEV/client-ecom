@@ -42,7 +42,6 @@ function ProductDetail() {
   // handle add to this product in cart arry
   const handleAddtoCart = (item) => {
     const errorMessage = document.querySelector(".error-size");
-    console.log(item.size)
     if (item.size.length > 0) {
       if (size) {
         const newArr = { ...item, amount: quantite, sizeTarget: size };
