@@ -13,7 +13,7 @@ import {
   deleteItemWshlist,
 } from "../rtlk/slices/wshlist-slice";
 import { AnimatePresence, motion } from "framer-motion";
-import loadingAnimate from '../images/loading-none-bg.gif'
+import loadingAnimate from "../images/loading-none-bg.gif";
 
 function ProductCart({ product, id }) {
   const [showCart, setShowCart] = useRecoilState(showCartsatate);
@@ -24,39 +24,36 @@ function ProductCart({ product, id }) {
   const [addWshlist, setAddWshlist] = useState(false);
   const [loading, setLoading] = useState();
   const wshilst = useSelector((state) => state.wshlist);
-  const products = useSelector(state => state.products)
+  const products = useSelector((state) => state.products);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // setTimeout(() => {
-    //   setLoading(false);
-    // }, 2000);
-    if(product) {
-      setLoading(false)
-    }else {
-      setLoading(true)
+    if (product) {
+      setLoading(false);
+    } else {
+      setLoading(true);
     }
   }, [product]);
 
-
-  
-
+  // Function to handle click events for adding/removing from wishlist
   const handlWshliteClick = (productInWishlist) => {
     if (productInWishlist) {
-      dispatch(deleteItemWishlist(product));
+      dispatch(deleteItemWishlist(product)); // Remove product from wishlist if it exists
     } else {
-      dispatch(addProduct(product));
-      setShowNoti(true);
-      console.log(wshilst)
+      dispatch(addProduct(product)); // Add product to wishlist if it does not exist
+      setShowNoti(true); // Show notification for successful addition
     }
   };
 
+  // Function to render the wishlist icon based on whether the product is in the wishlis
   const handlWshlite = () => {
     const productInWishlist = wshilst.find((prod) => prod._id === product._id);
 
-    // تحديد أيقونة القلب والنمط بناءً على وجود المنتج في قائمة الأمنيات
-    const iconClass = productInWishlist ? "bx bx-heart text-[23px] bg-[#F5CAAB] rounded-full text-white p-1" : "bx bx-heart text-[23px] bg-white rounded-full p-1";
+    // Determine the icon class based on the product's presence in the wishlist
+    const iconClass = productInWishlist
+      ? "bx bx-heart text-[23px] bg-[#F5CAAB] rounded-full text-white p-1"
+      : "bx bx-heart text-[23px] bg-white rounded-full p-1";
 
     return (
       <i
@@ -67,22 +64,24 @@ function ProductCart({ product, id }) {
     );
   };
 
+  // Function to show the add-to-cart modal or component
   const showAddToCart = (product) => {
     setShowCart(true);
-    setProductShowCart(product);
+    setProductShowCart(product); // Set the product to be shown in the cart
   };
 
+  // If showNoti is true, set a timeout to hide the notification after 2 seconds
   if (showNoti === true) {
     function myFunction() {
       setTimeout(function () {
-        // x.className = x.className.replace("block", "hidden");
         setShowNoti(false);
       }, 2000);
     }
 
-    myFunction();
+    myFunction(); // Call the function to start the timeout
   }
 
+  // Define the exit animation for a component 
   const item = {
     exit: {
       opacity: 0,
@@ -90,7 +89,6 @@ function ProductCart({ product, id }) {
       transition: {
         ease: "easeInOut",
         duration: 0.3,
-        // delay: 1.2,
       },
     },
   };
@@ -100,19 +98,19 @@ function ProductCart({ product, id }) {
       <div className="flex flex-col gap-2 box-prod">
         <div className="relative overflow-hidden ">
           <div className="relative">
-            {loading && <div className="w-full h-full bg-slate-50 absolute">
-              <div className="flex gap-2 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                {/* <div className="w-5 h-5 rounded-full animate-pulse bg-[#F5CAAB]"></div>
+            {loading && (
+              <div className="w-full h-full bg-slate-50 absolute">
+                <div className="flex gap-2 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+                  {/* <div className="w-5 h-5 rounded-full animate-pulse bg-[#F5CAAB]"></div>
                 <div className="w-5 h-5 rounded-full animate-pulse bg-[#F5CAAB]"></div>
                 <div className="w-5 h-5 rounded-full animate-pulse bg-[#F5CAAB]"></div> */}
-                <img src={loadingAnimate} />
+                  <img src={loadingAnimate} />
+                </div>
               </div>
-            </div>}
+            )}
             <img
               alt={product.name}
-              src={
-                product.image[0]
-              }
+              src={product.image[0]}
               className="text-sm rounded-[10px]"
             />
           </div>
@@ -148,9 +146,7 @@ function ProductCart({ product, id }) {
             {product.name}
           </Link>
           <div className="flex gap-3 items-center">
-            <span className="text-[#696969] text-[20px]">
-              ${product.price}
-            </span>
+            <span className="text-[#696969] text-[20px]">${product.price}</span>
             <span className="text-[red] text-[14px] line-through">
               {product.PriceDiscount && `$${product.PriceDiscount}`}
             </span>

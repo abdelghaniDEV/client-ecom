@@ -4,12 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   decrementAmount,
   deleteItemCart,
-  deletItemCart,
   incrementAmount,
 } from "../rtlk/slices/cart-slices";
 import { motion } from "framer-motion";
-import { loadStripe } from "@stripe/stripe-js";
-import { makeRequest } from "../api";
 // import { useHistory } from 'react-router-dom';
 
 function Cart({ setShowCart }) {

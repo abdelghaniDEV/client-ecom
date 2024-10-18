@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { makeRequest } from "../api"; // Your axios instance
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
 import { Link } from "react-router-dom";
-import { color } from "framer-motion";
 
 const CheckoutForm = () => {
   const stripePromise = loadStripe(
@@ -195,6 +193,7 @@ const CheckoutForm = () => {
                       <img
                         className="m-2 h-24 w-28 rounded-md border object-cover object-center"
                         src={item.image[0]}
+                        alt={item.name}
                       />
 
                       <div className="flex w-full flex-col px-4 py-4">

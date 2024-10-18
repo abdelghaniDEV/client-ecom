@@ -91,34 +91,6 @@ function ProductDetail() {
     }
   };
 
-  // handel show and hidden sections information delevery and question
-  const infoProudacts = (e) => {
-    const target = e.target;
-    const action = target.dataset.action;
-
-    // Early return if no action is defined
-    if (!action) return;
-
-    const elements = {
-      delivery: document.querySelector("#delivery"),
-      question: document.querySelector("#question"),
-    };
-
-    switch (action) {
-      case "showDelivery":
-        elements.delivery.classList.remove("hidden");
-        break;
-      case "showQuestion":
-        elements.question.classList.remove("hidden");
-        break;
-      case "closeAll":
-        elements.delivery.classList.add("hidden");
-        elements.question.classList.add("hidden");
-        break;
-      default:
-        console.warn("No action matched:", action);
-    }
-  };
 
   // function check size selected in side
   const showSizeSelected = (item) => {
@@ -253,7 +225,7 @@ function ProductDetail() {
   const handlWshlite = (item) => {
     const productInWishlist = wishlist.find((prod) => prod.id === item.id);
 
-    // تحديد أيقونة القلب والنمط بناءً على وجود المنتج في قائمة الأمنيات
+    // 
     const iconClass = productInWishlist
       ? "bx bx-heart text-[14.8px] bg-[#ff000090] rounded-full text-white p-1"
       : "bx bx-heart text-[14.8px] bg-white rounded-full p-1";

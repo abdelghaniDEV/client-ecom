@@ -15,6 +15,7 @@ function Search({ setShowSearch }) {
       setLoading(false);
     }, 2000);
 
+  // Filtering products based on the search input
   const handelSearch = (e) => {
     const value = e.target.value.toLowerCase().trim();
     setLoading(true);
@@ -26,8 +27,9 @@ function Search({ setShowSearch }) {
           .toLowerCase()
           .includes(value)
     );
-    setResult(filterProducts);
+    setResult(filterProducts); // Update result state with the filtered products
 
+    // If the search input is empty, reset the result to an empty array
     if (value == "") {
       setResult([]);
     }

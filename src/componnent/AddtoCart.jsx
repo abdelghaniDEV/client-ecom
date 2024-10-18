@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {useState } from "react";
 import { useRecoilState } from "recoil";
 import { showCartsatate } from "../atoms/ShowCart";
 import { productShowCartsatate } from "../atoms/ProductShowCart";
@@ -6,7 +6,6 @@ import { useDispatch } from "react-redux";
 import { addProducts } from "../rtlk/slices/cart-slices";
 import { AnimatePresence, motion } from "framer-motion";
 import Notification from "./Notification";
-import { showNotifSclice } from "../atoms/ShowNotifi";
 import { Link } from "react-router-dom";
 
 function AddtoCart({ product }) {

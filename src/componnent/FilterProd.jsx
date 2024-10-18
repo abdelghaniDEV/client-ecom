@@ -1,21 +1,13 @@
-import { logDOM } from "@testing-library/react";
 import "../App.css";
-import React, { useRef } from "react";
+import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import ReactSlider from "react-slider";
-import Slider from "react-slider";
-import ProductCart from "./ProductCart";
 
 function FilterProd({
-  fetchedProducts,
   setFetchedProducts,
   setOpenFilter,
-  setSelectedCategorie,
-  setSelectedSize,
 }) {
-  const [filteredProducts, setFilteredProducts] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [priceOrder, setPriceOrder] = useState("lowToHigh"); // "lowToHigh" or "highToLow"
@@ -23,9 +15,7 @@ function FilterProd({
   const [Filters, setFilters] = useState([]);
 
   const products = useSelector((state) => state.products);
-  const categories = useSelector((state) => state.categories);
 
-  const [productsFilter, setProductsFilter] = useState([...products]);
 
   const listSize = ["M", "S", "X", "XL", "XXL"];
 

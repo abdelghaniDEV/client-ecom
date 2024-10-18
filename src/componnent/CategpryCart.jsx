@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import womenCate from "../images/womennew.png";
-import { motion } from "framer-motion";
 import loadingAnimate from '../images/loading-none-bg.gif'
 
 function CategpryCart({ category }) {
@@ -24,7 +21,7 @@ function CategpryCart({ category }) {
         {loading && (
               <div className="w-full h-full bg-slate-50 absolute z-[100]">
                 <div className="flex gap-2 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                  <img src={loadingAnimate} className="w-[100px]" />
+                  <img src={loadingAnimate} className="w-[100px]" alt="loading animation" />
                 </div>
                 
               </div>
