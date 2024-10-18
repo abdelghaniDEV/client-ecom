@@ -21,8 +21,8 @@ function Search({ setShowSearch }) {
     setvalue(value);
     const filterProducts = products.filter(
       (item) =>
-        item.attributes.title.toLowerCase().includes(value) ||
-        item.attributes.categories.data[0].attributes.name
+        item.name.toLowerCase().includes(value) ||
+        item.category[0]
           .toLowerCase()
           .includes(value)
     );
@@ -30,7 +30,6 @@ function Search({ setShowSearch }) {
 
     if (value == "") {
       setResult([]);
-      console.log("resulte in null");
     }
   };
 
@@ -79,7 +78,7 @@ function Search({ setShowSearch }) {
                 {loading ? (
                   <div
                     className="flex  rounded-lg bg-white sm:flex-row"
-                    key={item.id}
+                    key={item._id}
                   >
                     <div className="m-2 h-24 w-28 rounded-md border border-[F5CAAB] object-cover object-center relative bg-gray-300 animate-pulse">
                       <div className="flex gap-2 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
@@ -95,35 +94,35 @@ function Search({ setShowSearch }) {
                 ) : (
                   <div
                     className="flex items-start rounded-lg bg-white sm:flex-row"
-                    key={item.id}
+                    key={item._id}
                   >
                     <img
                       className="m-2 w-[70px] min-h-[90px]  rounded-md border object-cover object-center"
-                      src={item.attributes.images.data[0].attributes.url}
+                      src={item.image[0]}
                     />
 
                     <div className="flex w-full flex-col px-2 md:px-4 py-2">
                       <Link
-                        to={`/product/${item.id}`}
+                        to={`/product/${item._id}`}
                         className="font-semibold"
                         onClick={() => setShowSearch(false)}
                       >
-                        {item.attributes.title}
+                        {item.name}
                       </Link>
                       <h4 className="float-right text-[14px] text-gray-400">
                         category :{" "}
                         <span className="text-[#F5CAAB] font-semibold">
                           {" "}
-                          {item.attributes.categories.data[0].attributes.name}
+                          {item.category[0]}
                         </span>
                       </h4>
                       <div className="flex gap-2 items-center">
                         <p className="text-lg font-[600] ">
-                          ${item.attributes.price}
+                          ${item.price}
                         </p>
                         <p className="text-[14px] text-[red] line-through">
-                          {item.attributes.discount &&
-                            `$${item.attributes.discount}`}
+                          {item.PriceDiscount &&
+                            `$${item.PriceDiscount}`}
                         </p>
                       </div>
                     </div>
