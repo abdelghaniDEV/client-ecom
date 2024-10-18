@@ -14,7 +14,6 @@ function CategpryCart({ category }) {
     }, 2000);
   }, []);
 
-  console.log(category)
 
   return (
     //  <motion.div initial={{ opacity:0}} whileInView={{ opacity:1 }} transition={{ duration :  }}>

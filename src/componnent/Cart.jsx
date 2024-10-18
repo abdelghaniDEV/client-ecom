@@ -16,8 +16,6 @@ function Cart({ setShowCart }) {
   const cart = useSelector((state) => state.cart);
   const dispatch = useDispatch();
 
-  console.log(cart)
-
   const priceTotal = () => {
     return cart
       .reduce((total, item) => total + item.price * item.amount, 0)

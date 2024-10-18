@@ -22,10 +22,6 @@ function Home() {
 
   const products = useSelector(state => state.products);
   const categories = useSelector(state => state.categories)
-  console.log('home' ,categories)
-  // console.log(products)
-  // console.log(data)
-
   const betterProducts = products.filter((product) => product.better === true)
 
   const sameItems = products.filter((product) => product.better === true)

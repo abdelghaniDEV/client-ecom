@@ -49,8 +49,6 @@ function Products() {
           //   )
           // );
 
-            console.log('fitched',fetched)
-
       // Only update the state if the fetched products are different
       if (
         fetched.length !== fetchedProducts.length ||
