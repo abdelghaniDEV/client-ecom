@@ -16,7 +16,7 @@ function ListProducts({ products }) {
   // })
 
   //paginastion 
-  const itemsPerPage = 10;
+  const itemsPerPage = 15;
 
   const offset = currentPage * itemsPerPage;
   const currentProducts = products.slice(offset, offset + itemsPerPage);
@@ -38,14 +38,14 @@ function ListProducts({ products }) {
       </div>
       <div>
         <ReactPaginate
-          previousLabel={"Previous"}
+          previousLabel={"Prev"}
           nextLabel={"Next"}
           breakLabel={"..."}
           pageCount={pageCount}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={handlePageClick}
-          containerClassName={"flex justify-end items-center mt-4 space-x-2 "}
+          containerClassName={"flex justify-center items-center mt-4 space-x-2 "}
           pageClassName={
             "px-3 py-1 border rounded hover:bg-[#b58df2] hover:text-white"
           }

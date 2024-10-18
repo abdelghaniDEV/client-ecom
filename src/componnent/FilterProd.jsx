@@ -43,7 +43,7 @@ function FilterProd({
   }, []);
 
   useEffect(() => {
-    // حفظ القيم في localStorage فقط بعد التأكد من استرجاع البيانات
+    
     if (isDataLoaded) {
       filterProducts();
       const handleSaveToLocalStorage = () => {
