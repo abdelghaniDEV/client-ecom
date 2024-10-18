@@ -16,6 +16,7 @@ export const fetchProducts = createAsyncThunk("productsSlice/fetchProducts", asy
         
         return response.data; // Return the data directly
       } catch (error) {
+        console.log(error)
         console.error("Error fetching categories:", error);
         throw error; // Reject the thunk with error
       }
@@ -27,7 +28,6 @@ const productsSlice = createSlice({
     reducers : {},
     extraReducers : (builder) => {
         builder.addCase(fetchProducts.fulfilled , (state , action) => {
-            console.log(action.payload.data)
             return state = action.payload.data.products
             
         })
