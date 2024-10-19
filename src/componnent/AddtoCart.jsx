@@ -87,7 +87,7 @@ function AddtoCart({ product }) {
 
   const handleAddtoCart = () => {
     const errorMessage = document.querySelector(".error-size");
-    if (productShowCart.size) {
+    if (productShowCart.size.length > 0) {
       if (size) {
         const newArr = {
           ...productShowCart,

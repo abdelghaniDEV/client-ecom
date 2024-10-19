@@ -40,7 +40,7 @@ function Cart({ setShowCart }) {
         </div>
       </div>
       <div>
-        <div className=" flex flex-col  gap-3  md:h-[480px]  overflow-scroll px-[25px] ">
+        <div className=" flex flex-col  gap-3  md:h-[480px] overflow-y-auto px-[25px] ">
           {cart.map((item) => {
             return (
               <motion.div
