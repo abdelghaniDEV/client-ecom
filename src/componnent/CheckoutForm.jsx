@@ -82,7 +82,7 @@ const CheckoutForm = () => {
     e.preventDefault();
     if (validateForm()) {
       handleCheckout();
-      submitOrder()
+      // submitOrder()
       // Handle successful form submission
     } 
   };
