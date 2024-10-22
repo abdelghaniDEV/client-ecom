@@ -97,7 +97,7 @@ function ProductCart({ product, id }) {
     <>
       <div className="flex flex-col gap-2 box-prod">
         <div className="relative overflow-hidden ">
-          <div className="relative">
+          <Link  to={`/product/${product._id}`} className="relative">
             {loading && (
               <div className="w-full h-full bg-slate-50 absolute">
                 <div className="flex gap-2 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
@@ -113,7 +113,7 @@ function ProductCart({ product, id }) {
               src={product.image[0]}
               className="text-sm rounded-[10px]"
             />
-          </div>
+          </Link>
 
           {loading === false && (
             <div className="absolute top-[10px] right-[10px] cursor-pointer  ">
