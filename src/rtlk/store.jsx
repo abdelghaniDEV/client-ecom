@@ -4,6 +4,7 @@ import productsSlice from "./slices/products-slice";
 import cartSlices from "./slices/cart-slices";
 import categoriesSlice from "./slices/categories-slice";
 import wshlistSlice from "./slices/wshlist-slice";
+import settingsSlice from "./slices/settings-slice"
 
 
 
@@ -13,5 +14,6 @@ export const store = configureStore({
         categories : categoriesSlice,
         cart : cartSlices,
         wshlist : wshlistSlice,
+        settings : settingsSlice
     },
 })

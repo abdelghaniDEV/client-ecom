@@ -5,7 +5,7 @@ import { Route, Routes, useLocation } from "react-router-dom";
 import ProductDetail from "./componnent/ProductDetail";
 import { useEffect } from "react";
 import { fetchProducts } from "./rtlk/slices/products-slice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Shop from "./pages/Shop";
 import Products from "./pages/Products";
 import { fetchCatrgpries } from "./rtlk/slices/categories-slice";
@@ -13,15 +13,19 @@ import Footer from "./componnent/Footer";
 import Wishlist from "./pages/Wishlist";
 import Checkout from "./pages/Checkout";
 import SucessPayent from "./componnent/SucessPayent";
+import { Helmet } from 'react-helmet';
+import { fetchSettings } from "./rtlk/slices/settings-slice";
 
 function App() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
-
   useEffect(() => {
     dispatch(fetchProducts());
     dispatch(fetchCatrgpries());
+    dispatch(fetchSettings())
   }, []);
+  const settings = useSelector((state) => state.settings)
+  console.log(settings)
   useEffect(() => {
     // Scroll to top on pathname change
     window.scrollTo(0, 0);
@@ -30,6 +34,11 @@ function App() {
   return (
     <div className="overflow-hidden">
       <Header />
+      <Helmet>
+        <title>{settings.storeName}</title>
+        <meta name="description" content={settings.storeDescription} />
+        <link rel="icon" type="image/png" href={settings.storeIcon}  />
+      </Helmet>
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route path="products/:category" element={<Products />} />

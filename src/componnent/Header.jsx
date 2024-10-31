@@ -13,6 +13,7 @@ function Header() {
 
   const cart = useSelector((state) => state.cart);
   const wshlist = useSelector((state) => state.wshlist);
+  const settings = useSelector((state) => state.settings);
 
   const [showMenu, setShowMenu] = useState(false);
 
@@ -143,33 +144,33 @@ function Header() {
           <div className="flex items-center gap-[12px]">
             <div className="flex items-center gap-[5px] transition-all hover:text-[#eeeeee] cursor-pointer ">
               <i className="bx bx-phone text-[20px]"></i>
-              <span className="text-[13px]"> +1-202-555-0184</span>
+              <span className="text-[13px]">{settings.storePhone}</span>
             </div>
             <div className="flex items-center gap-[5px] transition-all hover:text-[#eeeeee] cursor-pointer">
               <i className="bx bx-envelope text-[20px]"></i>
-              <span className="text-[13px]">Support@gmail.com</span>
+              <span className="text-[13px]">{settings.storeEmail}</span>
             </div>
           </div>
           <div>
             <ul className="flex items-center gap-[15px]">
               <li>
-                <a href="#">
+                <a href={settings.facebookLink}>
                   <i className="bx bxl-facebook text-[20px]"></i>
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href={settings.instagramLink}>
                   <i className="bx bxl-instagram-alt text-[20px]"></i>
                 </a>
               </li>
               <li>
-                <a href="#">
+                <a href={settings.twitterLink}>
                   <i className="bx bxl-gmail text-[20px]"></i>
                 </a>
               </li>
               <li>
-                <a href="#">
-                  <i className="bx bxl-pinterest"></i>
+                <a href={settings.tiktokLink}>
+                  <i className="bx bxl-tiktok"></i>
                 </a>
               </li>
             </ul>
@@ -187,7 +188,7 @@ function Header() {
         {/*  logo */}
         <div>
           <Link to="/">
-            <img className="w-[100px]" src={logo} />
+            <img className="w-[100px]" src={settings.storeLogo} />
           </Link>
         </div>
         {/* menu */}

@@ -96,7 +96,7 @@ function Home() {
         <div >
           <img
             className="w-[400px] md:w-[500px]"
-            src="https://demo-unsen.myshopify.com/cdn/shop/products/straw-floppy-hat_04.jpg?v=1661767425&width=700"
+            src=""
           />
         </div>
         <div className="flex flex-col items-center gap-4 mt-auto mb-auto pr-[30px]">
