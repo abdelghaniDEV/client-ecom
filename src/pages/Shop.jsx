@@ -5,12 +5,13 @@ import CategpryCart from '../componnent/CategpryCart'
 function Shop() {
 
   const categories = useSelector(state => state.categories)
+  const template = useSelector((state) => state.template)
 
 
   // const { shop } = useParams()
   return (
     <div className=''>
-         <div className='w-full h-[20vh] xl:h-[45vh]  mb-[30px] relative  bg-[url("/src/images/bnnn.png")] bg-cover'>
+         <div className='w-full h-[20vh] xl:h-[45vh]  mb-[30px] relative  bg-cover'  style={{ backgroundImage: `url(${template.bannerShop?.imgShop})` }}>
         <div className="flex flex-col items-center  absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
           <div className="flex flex-col items-center pb-[50px]">
             <h1 className="text-[40px] lg:text-[50px] text-white">Shop</h1>

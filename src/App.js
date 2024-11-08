@@ -15,6 +15,7 @@ import Checkout from "./pages/Checkout";
 import SucessPayent from "./componnent/SucessPayent";
 import { Helmet } from 'react-helmet';
 import { fetchSettings } from "./rtlk/slices/settings-slice";
+import { fetchTemplate } from "./rtlk/slices/template.slice";
 
 function App() {
   const dispatch = useDispatch();
@@ -23,6 +24,7 @@ function App() {
     dispatch(fetchProducts());
     dispatch(fetchCatrgpries());
     dispatch(fetchSettings())
+    dispatch(fetchTemplate())
   }, []);
   const settings = useSelector((state) => state.settings)
   console.log(settings)

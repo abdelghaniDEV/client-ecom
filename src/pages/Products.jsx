@@ -10,6 +10,7 @@ import { AnimatePresence, motion } from "framer-motion";
 function Products() {
   const products = useSelector((state) => state.products);
   const categories = useSelector((state) => state.categories);
+  const template = useSelector((state) => state.template)
 
   // const [fetchData, setFetchData] = useState();
   const [fetchedProducts, setFetchedProducts] = useState([]);
@@ -96,7 +97,9 @@ function Products() {
         id="products-container"
         className="fixed top-0 left-0 w-full h-full bg-[#000000b3] opacity-0 invisible transition-opacity z-[1000] "
       ></div>
-      <div className=' w-full h-[25vh] xl:h-[45vh] mb-[30px] relative bg-[url("/src/images/bnnn.png")] bg-cover'>
+      <div className='w-full h-[20vh] xl:h-[45vh]  mb-[30px] relative  bg-cover' 
+       style={{ backgroundImage: `url(${template.bannerShop?.imgShop})` }}
+      >
         <div className="flex flex-col items-center  absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
           <div className="flex flex-col items-center pb-[25px] md:pb-[40px]">
             <h1 className="text-[35px] lg:text-[50px] text-white ">
