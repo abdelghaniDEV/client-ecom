@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { loadStripe } from "@stripe/stripe-js";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CheckoutForm = () => {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISH_KEY);
@@ -25,6 +25,8 @@ const CheckoutForm = () => {
     zipCode: "",
     address: "",
   });
+
+  const navigate = useNavigate()
 
   useEffect(() => {
     setTimeout(() => {
@@ -147,6 +149,7 @@ const CheckoutForm = () => {
           }
         );
         console.log("Upload successful:", response.data);
+        navigate("/success/");
       } catch (err) {
         console.error(err);
       }
