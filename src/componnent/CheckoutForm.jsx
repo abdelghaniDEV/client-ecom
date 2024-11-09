@@ -400,17 +400,17 @@ const CheckoutForm = () => {
           </div>
           <div className="flex gap-4">
           <button
-            className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white flex items-center justify-center"
+            className="mt-4 mb-8 w-full rounded-md bg-gray-900 md:px-6 py-3 font-medium text-white flex items-center justify-center"
             onClick={submitOrder}
           >
-            <i className='bx bxs-truck mr-2 text-[30px]'></i>
+            <i className='bx bxs-truck mr-2 text-[25px] md:text-[30px]'></i>
             Cash on delivery
           </button>
           <button
-            className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white flex items-center justify-center"
+            className="mt-4 mb-8 w-full rounded-md bg-gray-900 md:px-6 py-3 font-medium text-white flex items-center justify-center"
             onClick={handleCheckout}
           >
-            <i className="bx bxs-credit-card mr-2 text-[30px]"></i>
+            <i className="bx bxs-credit-card mr-2 text-[25px] md:text-[30px]"></i>
             Pay Order
           </button>
            
