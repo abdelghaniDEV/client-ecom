@@ -14,6 +14,7 @@ import {
 } from "../rtlk/slices/wshlist-slice";
 import { AnimatePresence, motion } from "framer-motion";
 import loadingAnimate from "../images/loading-none-bg.gif";
+import Skeleton from "./Skeleton";
 
 function ProductCart({ product, id }) {
   const [showCart, setShowCart] = useRecoilState(showCartsatate);
@@ -81,7 +82,7 @@ function ProductCart({ product, id }) {
     myFunction(); // Call the function to start the timeout
   }
 
-  // Define the exit animation for a component 
+  // Define the exit animation for a component
   const item = {
     exit: {
       opacity: 0,
@@ -95,15 +96,15 @@ function ProductCart({ product, id }) {
 
   return (
     <>
+      
       <div className="flex flex-col gap-2 box-prod">
+        {/* <div className="animate-pulse rounded-md bg-slate-300  h-[260px] "></div> */}
+
         <div className="relative overflow-hidden ">
-          <Link  to={`/product/${product._id}`} className="relative">
+          <Link to={`/product/${product._id}`} className="relative">
             {loading && (
               <div className="w-full h-full bg-slate-50 absolute">
                 <div className="flex gap-2 absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-                  {/* <div className="w-5 h-5 rounded-full animate-pulse bg-[#F5CAAB]"></div>
-                <div className="w-5 h-5 rounded-full animate-pulse bg-[#F5CAAB]"></div>
-                <div className="w-5 h-5 rounded-full animate-pulse bg-[#F5CAAB]"></div> */}
                   <img src={loadingAnimate} />
                 </div>
               </div>
@@ -145,8 +146,12 @@ function ProductCart({ product, id }) {
           >
             {product.name}
           </Link>
-          <div className="flex gap-3 items-center">
+          <div className="flex gap-2 items-center">
             <span className="text-[#696969] text-[20px]">${product.price}</span>
+            <span className="text-black text-[15px] flex items-center gap-[1px]">
+              <i className="bx bx-shekel text-black"></i>{" "}
+              {(product.price * 3.75).toFixed(2)}
+            </span>
             <span className="text-[red] text-[14px] line-through">
               {product.PriceDiscount && `$${product.PriceDiscount}`}
             </span>

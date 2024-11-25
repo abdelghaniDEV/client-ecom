@@ -24,37 +24,52 @@ function ProductDetail() {
   const [showAskQustion, setShowAskQustion] = useState(false);
   const [showNoti, setShowNoti] = useState(false);
 
-
-
   // import dispatch
   const dispatch = useDispatch();
 
   // select prams in this page
   const prams = useParams();
 
-
-
   useEffect(() => {
-    setQuantite(1)
-    setSize()
-  },[prams.id])
+    setQuantite(1);
+    setSize();
+  }, [prams.id]);
 
-  // handle add to this product in cart arry
-  const handleAddtoCart = (item) => {
-    const errorMessage = document.querySelector(".error-size");
-    if (item.size.length > 0) {
-      if (size) {
-        const newArr = { ...item, amount: quantite, sizeTarget: size };
-        dispatch(addProducts(newArr));
-        errorMessage.classList.add("hidden");
-        setShowNoti(true);
-      } else errorMessage.classList.remove("hidden");
-    } else {
-      const newArr = { ...item, amount: quantite };
-      dispatch(addProducts(newArr));
-      setShowNoti(true);
-    }
+const handleAddtoCart = (item) => {
+  const errorSizeMessage = document.querySelector(".error-size");
+  const errorColorMessage = document.querySelector(".error-color");
+
+  // 
+  const hasSizeOptions = Array.isArray(item.size) && item.size.length > 0;
+  const hasColorOptions = Array.isArray(item.colors) && item.colors.length > 0;
+
+  // 
+  const isSizeValid = hasSizeOptions ? item.size.includes(size) : true;
+  const isColorValid = hasColorOptions ? item.colors.includes(color) : true;
+
+  // 
+  if ((hasSizeOptions && !isSizeValid) || (hasColorOptions && !isColorValid)) {
+    if (!isSizeValid && errorSizeMessage) errorSizeMessage.classList.remove("hidden");
+    if (!isColorValid && errorColorMessage) errorColorMessage.classList.remove("hidden");
+    return;
+  }
+
+  // 
+  const newArr = {
+    ...item,
+    amount: quantite,
+    sizeTarget: isSizeValid ? size : null,
+    colorSelector: isColorValid ? color : null,
   };
+  dispatch(addProducts(newArr));
+
+  // 
+  if (errorSizeMessage) errorSizeMessage.classList.add("hidden");
+  if (errorColorMessage) errorColorMessage.classList.add("hidden");
+
+  setShowNoti(true);
+};
+
 
   // check description in side this product
   const showShortdescriptin = (item) => {
@@ -86,19 +101,19 @@ function ProductDetail() {
     const buttonValue = e.target.textContent;
     if (buttonValue === "+" && quantite >= 1) {
       setQuantite(quantite + 1);
-    } else if(buttonValue === "-" && quantite > 1) {
+    } else if (buttonValue === "-" && quantite > 1) {
       setQuantite(quantite - 1);
     }
   };
 
-
   // function check size selected in side
   const showSizeSelected = (item) => {
-    console.log("Checking", item.size.lenght);
     if (item.size.length > 0) {
       return (
-        <div className="py-[12px] md:py-[15px]">
-          <h3 className="pb-[10px]">Size : {size}</h3>
+        <div className="-[12px] md:pt-[15px]">
+          <h3 className="pb-[10px]">
+            Size : <span className="uppercase">{size}</span>
+          </h3>
           <ul className="flex items-center flex-wrap gap-4">
             {item.size.map((item, index) => {
               return (
@@ -121,6 +136,50 @@ function ProductDetail() {
       return <div className="pt-5"></div>;
     }
   };
+  const showColorSelected = (item) => {
+    if (item.colors.length > 0) {
+      return (
+        <div className="py-[12px] ">
+          <h3 className="pb-[10px] flex gap-2 items-center">
+            colors :{" "}
+            <div
+              className="w-[30px] h-[30px] rounded-full "
+              style={{ backgroundColor: color }}
+            ></div>
+          </h3>
+          <ul className="flex items-center flex-wrap gap-3">
+            {item.colors.map((item, index) => {
+              return (
+                <li
+                  className="w-[30px] h-[30px] rounded-full  cursor-pointer"
+                  style={{ backgroundColor: item }}
+                  key={index}
+                  onClick={(e) => clickColor(e, item)}
+                ></li>
+              );
+            })}
+          </ul>
+          <h4 className="text-[red] mt-4 error-color border-b-2 p-2  border-rose-600 hidden">
+            Please Select Your color
+          </h4>
+        </div>
+      );
+    } else {
+      return <div className="pt-5"></div>;
+    }
+  };
+  // function selected size
+  const clickColor = (e, item) => {
+    const colorActive = document.querySelector(".active-color");
+    if (colorActive === null) {
+      console.log(false);
+    } else {
+      colorActive.classList.remove("active-color");
+    }
+    e.target.classList.add("active-color");
+    setcolor(item);
+  };
+
   // display select image
   const showImg = (e, item) => {
     const displayImg = document.querySelector(".display-img");
@@ -133,14 +192,12 @@ function ProductDetail() {
 
   const listSameProducts = (item) => {
     const listprod = products.filter(
-      (prod) =>
-        prod.category[0] ===
-        item.category[0]
+      (prod) => prod.category[0] === item.category[0]
     );
     return (
       <div className="grid grid-cols-2 gap-4 mx-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5">
         {listprod.map((product) => {
-          return <ProductCart product={product} key={product.id} />;
+          return <ProductCart product={product} key={product._id} />;
         })}
       </div>
     );
@@ -149,14 +206,12 @@ function ProductDetail() {
   // fetch another products in page details
   const listViewsProducts = (item) => {
     const listprod = products.filter(
-      (prod) =>
-        prod.category[0] !==
-        item.category[0]
+      (prod) => prod.category[0] !== item.category[0]
     );
     return (
       <div className="grid grid-cols-2 gap-4 mx-auto md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-5">
         {listprod.map((product) => {
-          return <ProductCart product={product} key={product.id} />;
+          return <ProductCart product={product} key={product._id} />;
         })}
       </div>
     );
@@ -225,7 +280,7 @@ function ProductDetail() {
   const handlWshlite = (item) => {
     const productInWishlist = wishlist.find((prod) => prod.id === item.id);
 
-    // 
+    //
     const iconClass = productInWishlist
       ? "bx bx-heart text-[14.8px] bg-[#ff000090] rounded-full text-white p-1"
       : "bx bx-heart text-[14.8px] bg-white rounded-full p-1";
@@ -269,7 +324,6 @@ function ProductDetail() {
     <div>
       {products.map((item) => {
         if (item._id == prams.id) {
-          console.log(item)
           return (
             <div className="container" key={item._id}>
               {/* title of this page title + categorie + home */}
@@ -280,9 +334,7 @@ function ProductDetail() {
                   </li>
                   <i className="bx bx-chevron-right"></i>
                   <li>
-                    <Link>
-                      {item.category[0]}
-                    </Link>
+                    <Link>{item.category[0]}</Link>
                   </li>
                   <i className="bx bx-chevron-right"></i>
                   <li className="text-[#868686]">{item.name}</li>
@@ -325,9 +377,9 @@ function ProductDetail() {
                         <span className="text-[35px] md:text-[30px] font-medium">
                           ${item.price}
                         </span>
+                        <span className="text-black text-[20px] font-[500] flex items-center gap-1"><i className='bx bx-shekel text-black'></i> {(item.price * 3.75).toFixed(2)}</span>
                         <span className="text-[red] line-through ">
-                          {item.PriceDiscount &&
-                            `$${item.PriceDiscount}`}
+                          {item.PriceDiscount && `$${item.PriceDiscount}`}
                         </span>
                       </div>
                     </div>
@@ -358,7 +410,7 @@ function ProductDetail() {
                     </div>
                     {/* size selected  */}
                     {showSizeSelected(item)}
-
+                    {showColorSelected(item)}
                     <div className="grid grid-cols-1 gap-4 ">
                       <div className="flex items-center gap-[20px] ">
                         <button
@@ -425,18 +477,20 @@ function ProductDetail() {
                       </h4>
                       <h4 className=" text-black  text-[16px]">
                         Available :{" "}
-                        <span className="text-[#868686]">{item.stock > 0 ? 'One Stock' : 'Out Stock'}</span>
+                        <span className="text-[#868686]">
+                          {item.stock > 0 ? "One Stock" : "Out Stock"}
+                        </span>
                       </h4>
                       <h4 className="text-black text-[16px]">
                         categories :{" "}
-                        {item.category.map((cate , index) => {
+                        {item.category.map((cate, index) => {
                           return (
                             <Link
                               key={index}
                               to={`/products/${cate}`}
                               className="text-[#868686] pr-[8px]"
                             >
-                               {cate}
+                              {cate}
                             </Link>
                           );
                         })}
@@ -697,7 +751,6 @@ function ProductDetail() {
                       textNoti={"Successfully added your Cart"}
                       Icon={
                         <i className="bx bxs-cart-download text-[#198754] text-[30px]"></i>
-                        
                       }
                       title={item.name}
                     />

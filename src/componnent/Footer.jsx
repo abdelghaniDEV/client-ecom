@@ -1,6 +1,7 @@
 import React from "react";
 import logo from "../images/SAFWA@4x.png";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 function Footer() {
   const categories = useSelector((state) => state.categories);
@@ -14,9 +15,9 @@ function Footer() {
           <div>
             <h2 className="text-[25px] pb-2 font-[500]">Pages</h2>
             <ul className="flex flex-col gap-[10px] text-[15px] font-[400] text-[#868686] ">
-              <li>Home</li>
-              <li>Shop</li>
-              <li>Products</li>
+              <Link to={'/'}>Home</Link>
+              <Link to={'/shop'}>Shop</Link>
+              <Link to={'/products/All'}>Products</Link>
               <li>Blog</li>
             </ul>
           </div>
@@ -24,7 +25,7 @@ function Footer() {
             <h6 className="text-[25px] pb-2 font-[500]">categories</h6>
             <ul className="flex flex-col gap-[10px] text-[15px] font-[400] text-[#868686] ">
               {categories.map((cate) => {
-                return <li key={cate._id}>{cate.name}</li>;
+                return <Link to={`products/${cate.name}`} key={cate._id}>{cate.name}</Link>;
               })}
             </ul>
           </div>

@@ -28,6 +28,10 @@ p {
   background-color: rgb(241 245 249);
 }
 
+.active-color {
+  border: 2px solid gray;
+}
+
 .styleShadow {
   box-shadow: rgba(0, 0, 0, 1) 0px 22px 100px 20px;
 }

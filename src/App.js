@@ -27,7 +27,6 @@ function App() {
     dispatch(fetchTemplate())
   }, []);
   const settings = useSelector((state) => state.settings)
-  console.log(settings)
   useEffect(() => {
     // Scroll to top on pathname change
     window.scrollTo(0, 0);

@@ -10,6 +10,7 @@ import ProductSlider from "../componnent/ProductsSlider";
 import ImagesSlider from "../componnent/ImagesSlider";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import Skeleton from "../componnent/Skeleton";
 function Home() {
   // const [products, setProducts] = useRecoilState(productsState);
 
@@ -62,14 +63,21 @@ function Home() {
         {/* <CategpryCart category={categories[0]}/> */}
       </motion.div>
       <div>
-        <div className="  flex flex-col gap-2 items-center mb-[20px]">
-          <h1 className="text-[30px] font-medium lg:text-[40px]">
-            {template.listProducts?.title}
-          </h1>
-          <p className="text-[12px]  text-center px-[60px]">
-            {template.listProducts?.subtitle}
-          </p>
-        </div>
+        {template ? (
+          <div className="  flex flex-col gap-2 items-center mb-[20px]">
+            <h1 className="text-[30px] font-medium lg:text-[40px]">
+              {template.listProducts?.title}
+            </h1>
+            <p className="text-[12px]  text-center px-[60px]">
+              {template.listProducts?.subtitle}
+            </p>
+          </div>
+        ) : (
+          <div className="  flex flex-col gap-2 items-center mb-[20px]">
+            <Skeleton className={"w-[400px] h-8 "} />
+            <Skeleton className={"w-[200px] h-5 "} />
+          </div>
+        )}
         <ListProducts products={products} />
       </div>
       {/* banner */}
@@ -78,7 +86,6 @@ function Home() {
         whileInView={{ opacity: 1 }}
         transition={{ duration: 1 }}
         className=" relative bg-[#F1EEF4] h-[240px] my-[30px] overflow-hidden flex md:h-[420px] bg-cover   "
-
       >
         <div>
           <img

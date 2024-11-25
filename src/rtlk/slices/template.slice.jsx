@@ -19,7 +19,7 @@ export const fetchTemplate = createAsyncThunk("templateSlice/fetchTemplate", asy
 })
 
 const templateSlice = createSlice({
-    initialState : [],
+    initialState : false,
     name : "templateSlice",
     reducers : {},
     extraReducers : (builder) => {

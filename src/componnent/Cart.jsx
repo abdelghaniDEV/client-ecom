@@ -50,7 +50,7 @@ function Cart({ setShowCart }) {
                   duration: 0.6,
                 }}
                 className="flex  gap-3 border-t-2 pt-3"
-                key={item.id}
+                key={item._id}
               >
                 <div>
                   <img
@@ -59,7 +59,7 @@ function Cart({ setShowCart }) {
                     src={item.image[0]}
                   />
                 </div>
-                <div className="md:pt-2 flex flex-col  w-full ">
+                <div className="md:pt- flex flex-col  w-full ">
                   <Link
                     to={`product/${item._id}`}
                     onClick={() => setShowCart(false)}
@@ -67,24 +67,37 @@ function Cart({ setShowCart }) {
                   >
                     {item.name}
                   </Link>
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
                     <h1 className="font-medium text-[20px] leading-[18px]">
                       ${(item.price * item.amount).toFixed(2)}
                     </h1>
+                    <span className="text-black text-[16px] font-[500] flex items-center gap-">
+                      <i className="bx bx-shekel text-black"></i>{" "}
+                      {(item.price * 3.75).toFixed(2)}
+                    </span>
                     <span className="text-[red] text-[13px] line-through">
                       {item.PriceDiscount}
                     </span>
                   </div>
-                  {item.sizeTarget && (
-                    <div className="flex flex-col">
-                      <span className="text-[10px] font-medium">
-                        size:{" "}
-                        <span className="text-[#686868] font-[600] text-[15px]">
-                          {item.sizeTarget}
-                        </span>
-                      </span>
-                    </div>
-                  )}
+                  <div className="flex gap-2 items-center ">
+                    {item.sizeTarget && (
+                      <div className="flex flex-col">
+                        <h4 className="text-[13px] font-[500]">
+                          size :{" "}
+                          <span className=" uppercase">{item.sizeTarget}</span>
+                        </h4>
+                      </div>
+                    )}
+                    {item.colorSelector && (
+                      <div className="flex items-center gap-1">
+                        <span className="text-[13px] font-[500]">Color : </span>
+                        <div
+                          className="text-[#686868] h-[18px] w-[18px] rounded-full"
+                          style={{ backgroundColor: item.colorSelector }}
+                        ></div>
+                      </div>
+                    )}
+                  </div>
                   <div className="flex items-center justify-between pt-1">
                     <div className="flex items-center gap-3 bg-slate-200 px-4 py-">
                       <button onClick={(e) => changAmount(e, item)}>-</button>
@@ -92,7 +105,6 @@ function Cart({ setShowCart }) {
                       <button onClick={(e) => changAmount(e, item)}>+</button>
                     </div>
                     <div className="flex items-center gap-3">
-                      
                       <i
                         className="bx bx-trash text-[20px] text-[red]"
                         onClick={() => dispatch(deleteItemCart(item))}

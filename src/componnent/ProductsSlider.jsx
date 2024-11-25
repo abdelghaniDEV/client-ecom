@@ -31,17 +31,17 @@ const ProductSlider = ({ products }) => {
       <Carousel
         responsive={responsive}
         infinite={true}
+        rtl=""
         customLeftArrow={<i className="bx bxs-chevron-right  absolute text-[30px] md:text-[35px] top-[30%] md:top-[40%] text-white bg-[#F5CAAB] opacity-[0.9] rounded-full"></i>}
         customRightArrow={<i className="bx bxs-chevron-left right-0 absolute text-[30px] md:text-[35px] top-[30%] md:top-[40%] text-white bg-[#F5CAAB] opacity-[0.9] rounded-full"></i>}
       >
         {products.map((prod) => {
           return (
-            <div className=" p-2 md:p-[20px]" key={prod.id}>
+            <div className=" p-2 md:p-[20px]" key={prod._id}>
               <ProductCart product={prod} />
             </div>
           );
         })}
-        {/* <ListProducts products={products} /> */}
       </Carousel>
       <AddtoCart />
     </div>

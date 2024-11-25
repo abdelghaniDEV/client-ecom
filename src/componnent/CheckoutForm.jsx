@@ -7,37 +7,27 @@ import { Link, useNavigate } from "react-router-dom";
 const CheckoutForm = () => {
   const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISH_KEY);
 
-  const cart = useSelector((statu) => statu.cart);
-
+  const cart = useSelector((state) => state.cart);
   const [loading, setLoading] = useState(true);
-
   const [formData, setFormData] = useState({
     fullName: "",
     email: "",
     zipCode: "",
     address: "",
+    number: "",
     Shipping: "20.00",
   });
-
-  const [errors, setErrors] = useState({
-    fullName: "",
-    email: "",
-    zipCode: "",
-    address: "",
-  });
-
-  const navigate = useNavigate()
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
+    const timer = setTimeout(() => setLoading(false), 2000);
+    return () => clearTimeout(timer); // Cleanup on unmount
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-    console.log(formData)
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
   const priceTotal = () => {
@@ -47,86 +37,80 @@ const CheckoutForm = () => {
   };
 
   const validateForm = () => {
-    let isValid = true;
     const newErrors = {};
+    let isValid = true;
 
-    // Full Name Validation
     if (!formData.fullName.trim()) {
       newErrors.fullName = "Full name is required.";
       isValid = false;
     }
 
-    // Email Validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
       newErrors.email = "Invalid email address.";
       isValid = false;
     }
 
-    // ZIP Code Validation
+    if (!formData.number.trim()) {
+      newErrors.number = "Number is required.";
+      isValid = false;
+    }
     const zipCodeRegex = /^\d{5}(?:[-\s]\d{4})?$/;
     if (!zipCodeRegex.test(formData.zipCode)) {
       newErrors.zipCode = "Invalid ZIP code.";
       isValid = false;
     }
 
-    // Address Validation
     if (!formData.address.trim()) {
       newErrors.address = "Address is required.";
       isValid = false;
     }
+
     setErrors(newErrors);
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      handleCheckout();
-      // submitOrder()
-      // Handle successful form submission
+      await handleCheckout();
     }
   };
 
   const handleCheckout = async () => {
     const stripe = await stripePromise;
 
-    try {
-      // Create a payment session using Strapi API with Axios
-      const response = await axios.post(
-        `${process.env.REACT_APP_API_URL}/payments/create-checkout-session`,
-        { cart , shippingCost: Number(formData.Shipping) }, // body containing the cart data
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`, // Uncomment if you need authorization
-          },
+    if (validateForm()) {
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/payments/create-checkout-session`,
+          { cart, shippingCost: Number(formData.Shipping) },
+          {
+            headers: {
+              Authorization: `Bearer ${process.env.REACT_APP_API_KEY}`,
+            },
+          }
+        );
+  
+        const session = response.data;
+        const result = await stripe.redirectToCheckout({ sessionId: session.id });
+  
+        if (result.error) {
+          console.error(result.error.message);
         }
-      );
-
-      const session = response.data;
-
-      // Redirect to Stripe Checkout
-      const result = await stripe.redirectToCheckout({
-        sessionId: session.id,
-      });
-
-      if (result.error) {
-        console.error(result.error.message);
+      } catch (error) {
+        console.error("Error during checkout:", error.message || error);
       }
-    } catch (error) {
-      console.error("Error during checkout:", error.message || error);
     }
   };
 
   const submitOrder = async () => {
-    const orderProduct = cart.map((prod) => {
-      return {
-        product: prod._id,
-        quantity: prod.amount,
-        sizeSelector: prod.sizeTarget,
-        colorSelector: "#ffff",
-      };
-    });
+    const orderProducts = cart.map((prod) => ({
+      product: prod._id,
+      quantity: prod.amount,
+      sizeSelector: prod.sizeTarget,
+      colorSelector: prod.colorSelector,
+    }));
 
     if (validateForm()) {
       const orderData = {
@@ -134,13 +118,15 @@ const CheckoutForm = () => {
         email: formData.email,
         address: formData.address,
         zipCode: formData.zipCode,
-        products: [...orderProduct],
+        number : formData.number,
+        products: orderProducts,
+        shipping : formData.Shipping,
         totalPrice: priceTotal(),
       };
+
       try {
-        // simulate API call
         const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}/orders`,
+          `http://localhost:4000/api/orders`,
           orderData,
           {
             headers: {
@@ -148,14 +134,14 @@ const CheckoutForm = () => {
             },
           }
         );
-        console.log("Upload successful:", response.data);
+        console.log("Order successful:", response.data);
         navigate("/success/");
       } catch (err) {
-        console.error(err);
+        console.error("Order error:", err);
       }
     }
-
   };
+
   return (
     <>
       <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
@@ -186,7 +172,7 @@ const CheckoutForm = () => {
                     </div>
                   ) : (
                     <div
-                      className="flex  rounded-lg bg-white sm:flex-row"
+                      className="flex rounded-lg bg-white sm:flex-row"
                       key={item.id}
                     >
                       <img
@@ -195,16 +181,25 @@ const CheckoutForm = () => {
                         alt={item.name}
                       />
 
-                      <div className="flex w-full flex-col px-4 py-4">
+                      <div className="flex w-full flex-col px-4 ">
                         <Link
                           to={`/product/${item.id}`}
                           className="font-semibold"
                         >
                           {item.name}
                         </Link>
-                        <span className="float-right text-gray-400">
-                          Free Shipping
-                        </span>
+                        <div className="float-right text-gray-400 text-[13px]">
+                         Quantite : <span className=" uppercase text-black font-[500]">{item.amount} </span>
+                        </div>
+                        {item.sizeTarget &&  <div className="float-right text-[13px] text-gray-400">
+                         size :<span className=" uppercase text-black font-[500]"> {item.sizeTarget} </span>
+                        </div>}
+                        {item.colorSelector &&  <div className="float-right text-[13px] flex items-center gap-2 text-gray-400">
+                         color :<div className=" h-[20px] w-[20px] rounded-full"
+                          style={{ backgroundColor: item.colorSelector }}
+                          
+                         > </div>
+                        </div>}
                         <p className="text-lg font-bold">
                           ${(item.price * item.amount).toFixed(2)}
                         </p>
@@ -310,7 +305,7 @@ const CheckoutForm = () => {
                   type="text"
                   id="card-holder"
                   onChange={handleChange}
-                  name="fullName"
+                  name="number"
                   //
                   className={`w-full rounded-md  border ${
                     errors.fullName ? "border-red-500" : "border-gray-300"
@@ -318,24 +313,11 @@ const CheckoutForm = () => {
                   placeholder="Your full name here"
                 />
                 <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="h-4 w-4 text-gray-400"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15 9h3.75M15 12h3.75M15 15h3.75M4.5 19.5h15a2.25 2.25 0 002.25-2.25V6.75A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25v10.5A2.25 2.25 0 004.5 19.5zm6-10.125a1.875 1.875 0 11-3.75 0 1.875 1.875 0 013.75 0zm1.294 6.336a6.721 6.721 0 01-3.17.789 6.721 6.721 0 01-3.168-.789 3.376 3.376 0 016.338 0z"
-                    />
-                  </svg>
+                  <i className='bx bx-phone text-gray-400'></i>
                 </div>
               </div>
 
-              <p className="text-red-500 text-sm">{errors.fullName}</p>
+              <p className="text-red-500 text-sm">{errors.number}</p>
             </div>
             <label
               htmlFor="billing-address"

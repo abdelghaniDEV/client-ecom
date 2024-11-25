@@ -31,6 +31,7 @@ const cartSlice = createSlice({
       if (findProd) {
         findProd.amount = action.payload.amount;
         findProd.sizeTarget = action.payload.sizeTarget;
+        findProd.colorSelector = action.payload.colorSelector;
       } else {
         state.push({ ...action.payload });
       }
