@@ -147,8 +147,8 @@ function ProductCart({ product, id }) {
             {product.name}
           </Link>
           <div className="flex gap-2 items-center">
-            <span className="text-[#696969] text-[20px]">${product.price}</span>
-            <span className="text-black text-[15px] flex items-center gap-[1px]">
+            {/* <span className="text-[#696969] text-[20px]">${product.price}</span> */}
+            <span className="text-[#696969] text-[20px] flex items-center gap-[1px]">
               <i className="bx bx-shekel text-black"></i>{" "}
               {(product.price * 3.75).toFixed(2)}
             </span>
