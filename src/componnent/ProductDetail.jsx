@@ -374,10 +374,10 @@ const handleAddtoCart = (item) => {
                         {item.name}
                       </h1>
                       <div className="flex items-center gap-4">
-                        <span className="text-[35px] md:text-[30px] font-medium">
+                        {/* <span className="text-[35px] md:text-[30px] font-medium">
                           ${item.price}
-                        </span>
-                        <span className="text-black text-[20px] font-[500] flex items-center gap-1"><i className='bx bx-shekel text-black'></i> {(item.price * 3.75).toFixed(2)}</span>
+                        </span> */}
+                        <span className="text-black text-[35px] md:text-[30px] font-[500] flex items-center gap-1"><i className='bx bx-shekel text-black'></i> {(item.price * 3.75).toFixed(2)}</span>
                         <span className="text-[red] line-through ">
                           {item.PriceDiscount && `$${item.PriceDiscount}`}
                         </span>

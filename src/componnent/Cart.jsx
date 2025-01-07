@@ -68,10 +68,10 @@ function Cart({ setShowCart }) {
                     {item.name}
                   </Link>
                   <div className="flex items-center gap-3">
-                    <h1 className="font-medium text-[20px] leading-[18px]">
+                    {/* <h1 className="font-medium text-[20px] leading-[18px]">
                       ${(item.price * item.amount).toFixed(2)}
-                    </h1>
-                    <span className="text-black text-[16px] font-[500] flex items-center gap-">
+                    </h1> */}
+                    <span className="text-black text-[20px] font-[500] flex items-center gap-">
                       <i className="bx bx-shekel text-black"></i>{" "}
                       {(item.price * 3.75).toFixed(2)}
                     </span>
