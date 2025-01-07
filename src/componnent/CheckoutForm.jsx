@@ -200,8 +200,8 @@ const CheckoutForm = () => {
                           
                          > </div>
                         </div>}
-                        <p className="text-lg font-bold">
-                          ${(item.price * item.amount).toFixed(2)}
+                        <p className="text-lg font-bold flex items-center">
+                        <i className='bx bx-shekel text-black'></i>{(item.price * item.amount).toFixed(2)}
                         </p>
                       </div>
                     </div>
